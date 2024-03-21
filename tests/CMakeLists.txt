@@ -11,7 +11,7 @@ if(CMAKE_SIZEOF_VOID_P EQUAL 8 AND NOT SUBHOOK_FORCE_32BIT)
   if(WIN32)
     set(asm_file foo_64_win.asm)
   elseif(UNIX)
-    set(asm_file foo_64_unix.asm)
+    set(asm_file foo_arm64_unix.asm)  # Updated to use ARM assembly file for UNIX
     set(asm_obj_file ${asm_file}.o)
   endif()
 endif()
@@ -37,8 +37,7 @@ endif()
 
 add_custom_command(
   OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/${asm_obj_file}"
-  COMMAND "${YASM_EXECUTABLE}" ${options} "-o"
-    "${CMAKE_CURRENT_BINARY_DIR}/${asm_obj_file}"
+  COMMAND as "-o" "${CMAKE_CURRENT_BINARY_DIR}/${asm_obj_file}"
     "${CMAKE_CURRENT_SOURCE_DIR}/${asm_file}"
   MAIN_DEPENDENCY "${CMAKE_CURRENT_SOURCE_DIR}/${asm_file}"
 )
